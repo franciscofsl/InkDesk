@@ -36,19 +36,14 @@ jobs:
         run: sleep 30s
         shell: bash
         
-      - name: Clean Raftel projects from solution
+      - name: Restore InkDesk projects
         run: |
-          dotnet sln InkDesk.sln remove ../../Raftel/src/Raftel.Application/Raftel.Application.csproj || true
-          dotnet sln InkDesk.sln remove ../../Raftel/src/Raftel.Domain/Raftel.Domain.csproj || true
-          dotnet sln InkDesk.sln remove ../../Raftel/src/Raftel.Infrastructure/Raftel.Infrastructure.csproj || true
+          find src -name '*.csproj' ! -path '*/libs/*' -exec dotnet restore {} -p:UseProjectReferences=false \;
         working-directory: ${{env.working-directory}}
-
-      - name: Restore dependencies
-        run: dotnet restore -p:UseProjectReferences=false
-        working-directory: ${{env.working-directory}}
-
-      - name: Build
-        run: dotnet build --no-restore --configuration Release -p:UseProjectReferences=false
+      
+      - name: Build InkDesk projects
+        run: |
+          find src -name '*.csproj' ! -path '*/libs/*' -exec dotnet build {} --no-restore -c Release -p:UseProjectReferences=false \;
         working-directory: ${{env.working-directory}}
 
       - name: Test with coverage
