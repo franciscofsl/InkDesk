@@ -15,7 +15,17 @@
         <Exec Command="dotnet pack ..\..\..\Raftel\Raftel.sln -c Release -o $(SolutionDir)local-packages --no-build" />
     </Target>
 
+    <PropertyGroup>
+        <UseProjectReferences Condition="'$(Configuration)' == 'Debug'">true</UseProjectReferences>
+    </PropertyGroup>
 
+    <ItemGroup Condition="'$(UseProjectReferences)' == 'true'">
+        <ProjectReference Include="..\..\..\Raftel\src\Raftel.Api\Raftel.Api.csproj" />
+    </ItemGroup>
+
+    <ItemGroup Condition="'$(UseProjectReferences)' != 'true'">
+        <PackageReference Include="Raftel.Api" Version="1.0.0" />
+    </ItemGroup>
 
     <ItemGroup>
         <PackageReference Include="Microsoft.EntityFrameworkCore.Design">
