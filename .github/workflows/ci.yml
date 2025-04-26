@@ -36,16 +36,18 @@ jobs:
         run: sleep 30s
         shell: bash
         
-      - name: Restore InkDesk projects
+      - name: Restore
         run: |
           find src -name '*.csproj' ! -path '*/libs/*' -exec dotnet restore {} -p:UseProjectReferences=false \;
         working-directory: ${{env.working-directory}}
       
-      - name: Build InkDesk projects
+      - name: Build
         run: |
           find src -name '*.csproj' ! -path '*/libs/*' -exec dotnet build {} --no-restore -c Release -p:UseProjectReferences=false \;
         working-directory: ${{env.working-directory}}
 
-      - name: Test with coverage
-        run: dotnet test --no-build --verbosity normal -p:UseProjectReferences=false
+      - name: Test with Coverage
+        run: |
+          find tests -name '*.csproj' -exec dotnet test {} --no-build --verbosity normal -p:UseProjectReferences=false \;
         working-directory: ${{env.working-directory}}
+
