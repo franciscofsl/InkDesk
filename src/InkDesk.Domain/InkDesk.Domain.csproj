@@ -5,9 +5,17 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
     </PropertyGroup>
+ 
+    <PropertyGroup>
+        <UseProjectReferences Condition="'$(Configuration)' == 'Debug'">true</UseProjectReferences>
+    </PropertyGroup>
 
-    <ItemGroup>
-      <ProjectReference Include="..\..\..\Raftel\src\Raftel.Domain\Raftel.Domain.csproj" />
+    <ItemGroup Condition="'$(UseProjectReferences)' == 'true'">
+        <ProjectReference Include="..\..\..\Raftel\src\Raftel.Domain\Raftel.Domain.csproj" />
+    </ItemGroup>
+
+    <ItemGroup Condition="'$(UseProjectReferences)' != 'true'">
+        <PackageReference Include="Raftel.Domain" Version="1.0.0" />
     </ItemGroup>
 
 </Project>

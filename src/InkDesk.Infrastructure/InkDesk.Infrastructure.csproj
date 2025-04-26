@@ -6,9 +6,20 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
-    <ItemGroup>
-      <ProjectReference Include="..\..\..\Raftel\src\Raftel.Infrastructure\Raftel.Infrastructure.csproj" />
+    <ItemGroup> 
       <ProjectReference Include="..\InkDesk.Domain\InkDesk.Domain.csproj" />
+    </ItemGroup>
+
+    <PropertyGroup>
+        <UseProjectReferences Condition="'$(Configuration)' == 'Debug'">true</UseProjectReferences>
+    </PropertyGroup>
+
+    <ItemGroup Condition="'$(UseProjectReferences)' == 'true'">
+        <ProjectReference Include="..\..\..\Raftel\src\Raftel.Infrastructure\Raftel.Infrastructure.csproj" />
+    </ItemGroup>
+
+    <ItemGroup Condition="'$(UseProjectReferences)' != 'true'">
+        <PackageReference Include="Raftel.Infrastructure" Version="1.0.0" />
     </ItemGroup>
 
     <ItemGroup>

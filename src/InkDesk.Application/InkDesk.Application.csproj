@@ -7,8 +7,19 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\..\Raftel\src\Raftel.Application\Raftel.Application.csproj" />
       <ProjectReference Include="..\InkDesk.Domain\InkDesk.Domain.csproj" />
+    </ItemGroup>
+
+    <PropertyGroup>
+        <UseProjectReferences Condition="'$(Configuration)' == 'Debug'">true</UseProjectReferences>
+    </PropertyGroup>
+
+    <ItemGroup Condition="'$(UseProjectReferences)' == 'true'">
+        <ProjectReference Include="..\..\..\Raftel\src\Raftel.Application\Raftel.Application.csproj" />
+    </ItemGroup>
+
+    <ItemGroup Condition="'$(UseProjectReferences)' != 'true'">
+        <PackageReference Include="Raftel.Application" Version="1.0.0" />
     </ItemGroup>
 
     <ItemGroup>

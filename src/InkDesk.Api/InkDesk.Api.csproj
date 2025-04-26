@@ -5,6 +5,17 @@
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
     </PropertyGroup>
+    
+    <Target Name="CleanLocalPackagesFolder" BeforeTargets="Build" Condition="'$(Configuration)' == 'Release'">
+        <RemoveDir Directories="$(SolutionDir)local-packages" />
+        <MakeDir Directories="$(SolutionDir)local-packages" />
+    </Target>
+
+    <Target Name="PackRaftelBeforeBuild" BeforeTargets="Build" DependsOnTargets="CleanLocalPackagesFolder" Condition="'$(Configuration)' == 'Release'">
+        <Exec Command="dotnet pack ..\..\..\Raftel\Raftel.sln -c Release -o $(SolutionDir)local-packages --no-build" />
+    </Target>
+
+
 
     <ItemGroup>
         <PackageReference Include="Microsoft.EntityFrameworkCore.Design">
